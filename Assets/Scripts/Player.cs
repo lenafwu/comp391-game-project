@@ -7,10 +7,11 @@ public class Player : MonoBehaviour
     // Exposed to Unity
     [SerializeField] private Transform groundCheckTransform = null;
     [SerializeField] private LayerMask playerMask;
+    [SerializeField] private float playerSpeed = 5f;
 
     // Invisible in Unity
-    private bool jumpKeyPressed;
     private Rigidbody rb;
+    private bool jumpKeyPressed;
     private float horizontalInput;
     private float verticalInput;
 
@@ -30,20 +31,22 @@ public class Player : MonoBehaviour
         }
 
         // Get horizontal and vertical input to make the player move
+
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+
     }
 
     // FixedUpdate is called one every time physics update
     private void FixedUpdate()
     {
-        // put the velocity at the top line, so the player can move while jumping
-        rb.velocity = new Vector3(horizontalInput, rb.velocity.y, verticalInput);
+        // Put this velocity at the top line, so the player can move while jumping
+        rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput);
 
-        // preventing Player from jumping in the air
-        // 1. add a layer to Player
-        // 2. add a Layermask field called Player Mask
-        // 3. in the Player Mask, check Everything except for Player (because the player always colliding with itself)
+        // Preventing Player from jumping in the air
+        // 1. in Unity, add a layer to Player
+        // 2. in this script, add a Layermask field called playerMask
+        // 3. in Unity, in the field 'Player Mask', check Everything except for Player (because the player always colliding with itself)
         // 4. Physics.OverlapSphere returns an array of the colliders
         // 5. if length == 0, the player isn't colliding with anything, i.e. in the air
         if (Physics.OverlapSphere(groundCheckTransform.position, 0.1f, playerMask).Length == 0)
