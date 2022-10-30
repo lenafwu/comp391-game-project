@@ -9,11 +9,27 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private float playerSpeed = 5f;
 
+    private int playerHealth = 100;
+    public int PlayerHealth
+    {
+        get
+        {
+            return playerHealth;
+        }
+        set
+        {
+            playerHealth = value;
+        }
+    }
+
+    public GameObject _enemy;
+
     // Invisible in Unity
     private Rigidbody rb;
     private bool jumpKeyPressed;
     private float horizontalInput;
     private float verticalInput;
+    private Vector3 offset;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +40,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        offset = this.transform.position - _enemy.transform.position;
+        if (offset.sqrMagnitude < 0.7f)
+        {
+            print("Enemy too close!");
+
+        }
+
         // Check if key space is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
