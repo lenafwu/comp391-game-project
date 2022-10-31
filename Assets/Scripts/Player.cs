@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float playerSpeed = 5f;
 
     private int playerHealth = 100;
-    public int PlayerHealthgi
+    public int PlayerHealth
     {
         get
         {
