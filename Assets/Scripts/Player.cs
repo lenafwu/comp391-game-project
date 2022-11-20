@@ -39,7 +39,6 @@ public class Player : MonoBehaviour
     }
 
 
-
     void OnCollisionEnter(Collision collision)
     {
         print("collision happenned");
@@ -48,8 +47,9 @@ public class Player : MonoBehaviour
 
         foreach (ContactPoint contact in collision.contacts)
         {
-
+            // TODO Teleport!
             print(contact.otherCollider.name);
+            // if()
             //print(contact.ToString());
             //Debug.DrawRay(contact.point, contact.normal, Color.red);
         }
