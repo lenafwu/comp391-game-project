@@ -41,15 +41,15 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        print("collision happenned");
-
-
-
         foreach (ContactPoint contact in collision.contacts)
         {
             // TODO Teleport!
             print(contact.otherCollider.name);
-            // if()
+            if (contact.otherCollider.name == "TeleportDoor")
+            {
+                print("collided with the door");
+                transform.position = new Vector3(-2.85f, 0.8f, -1.35f);
+            }
             //print(contact.ToString());
             //Debug.DrawRay(contact.point, contact.normal, Color.red);
         }
