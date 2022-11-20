@@ -1170,6 +1170,63 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   playerSpeed: 5
+--- !u!1001 &1444803597
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0059345076
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9999824
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 179.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955226839297273429, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768213861234373871, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
+      propertyPath: m_Name
+      value: BSS_Pumpkin_Orange_Angry (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4fbf5f8f2fe5340e589b5df8b95dcebd, type: 3}
 --- !u!1001 &1592398850
 PrefabInstance:
   m_ObjectHideFlags: 0
