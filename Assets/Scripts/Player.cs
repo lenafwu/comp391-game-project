@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Player : MonoBehaviour
 {
@@ -9,11 +10,27 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private float playerSpeed = 5f;
 
+    private int playerHealth = 100;
+    public int PlayerHealth
+    {
+        get
+        {
+            return playerHealth;
+        }
+        set
+        {
+            playerHealth = value;
+        }
+    }
+
+    public GameObject _enemy;
+
     // Invisible in Unity
     private Rigidbody rb;
     private bool jumpKeyPressed;
     private float horizontalInput;
     private float verticalInput;
+    private Vector3 offset;
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +38,52 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+
+
+    void OnCollisionEnter(Collision collision)
+    {
+        print("collision happenned");
+
+
+
+        foreach (ContactPoint contact in collision.contacts)
+        {
+
+            print(contact.otherCollider.name);
+            //print(contact.ToString());
+            //Debug.DrawRay(contact.point, contact.normal, Color.red);
+        }
+
+
+        //transform.Translate(0, 0, 0);
+        //foreach (ContactPoint contact in collision.contacts)
+        //{
+        //    Debug.DrawRay(contact.point, contact.normal, Color.white);
+        //}
+        //if (collision.relativeVelocity.magnitude > 2)
+        //    audioSource.Play();
+    }
+
+
+
     // Update is called once per frame
     void Update()
     {
+
+        if (transform.position.y < -1)
+        {
+            print("I am dead");
+            EditorApplication.isPlaying = false;
+        }
+
+        offset = this.transform.position - _enemy.transform.position;
+        if (offset.sqrMagnitude < 0.7f)
+        {
+            print("Enemy too close!");
+
+
+        }
+
         // Check if key space is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
