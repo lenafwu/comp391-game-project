@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform groundCheckTransform = null;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private float playerSpeed = 5f;
+    [SerializeField] private float rotateSpeed = 720;
+    [SerializeField] private float jumpSpeed = 7f;
 
     private int playerHealth = 100;
     public int PlayerHealth
@@ -35,10 +37,13 @@ public class Player : MonoBehaviour
 
     private Vector3 movementDirection;
 
+    private UIManager _UIManager;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
 
@@ -85,11 +90,12 @@ public class Player : MonoBehaviour
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         movementDirection.Normalize();
 
-        transform.Translate(movementDirection * playerSpeed * Time.deltaTime, Space.World);
+        //   transform.Translate(movementDirection * playerSpeed * Time.deltaTime, Space.World);
+
         if (movementDirection != Vector3.zero)
         {
-            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 5 * Time.deltaTime);
+            // Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotateSpeed * Time.deltaTime);
         }
 
     }
@@ -98,8 +104,14 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         // Put this velocity at the top line, so the player can move while jumping
-        //   rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput);
+        rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput);
 
+        // add a force up when jump key is pressed
+        if (jumpKeyPressed)
+        {
+            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
+            jumpKeyPressed = false;
+        }
         // face towards movement
 
         // Preventing Player from jumping in the air
@@ -113,12 +125,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        // add a force up when jump key is pressed
-        if (jumpKeyPressed)
-        {
-            rb.AddForce(Vector3.up * 7, ForceMode.VelocityChange);
-            jumpKeyPressed = false;
-        }
+
     }
 
     // picking up the coins
@@ -130,6 +137,7 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
             score++;
             print("Score : " + score);
+            _UIManager.updateScore(score);
         }
     }
 }
