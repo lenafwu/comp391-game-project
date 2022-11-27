@@ -1422,6 +1422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6298522015292662726}
   - component: {fileID: 6298522015299652704}
+  - component: {fileID: 6599498904525845242}
   m_Layer: 0
   m_Name: Mummy_Mon
   m_TagString: Untagged
@@ -1469,3 +1470,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &6599498904525845242
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6298522015292243942}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
