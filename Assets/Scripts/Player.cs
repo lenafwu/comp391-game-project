@@ -31,6 +31,9 @@ public class Player : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private Vector3 offset;
+    private int score = 0;
+
+    private Vector3 movementDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -39,29 +42,16 @@ public class Player : MonoBehaviour
     }
 
 
-
     void OnCollisionEnter(Collision collision)
     {
-        print("collision happenned");
-
-
-
+        // Teleport to the designated position
         foreach (ContactPoint contact in collision.contacts)
         {
-
-            print(contact.otherCollider.name);
-            //print(contact.ToString());
-            //Debug.DrawRay(contact.point, contact.normal, Color.red);
+            if (contact.otherCollider.name == "TeleportDoor")
+            {
+                transform.position = new Vector3(-2.85f, 0.8f, -1.35f);
+            }
         }
-
-
-        //transform.Translate(0, 0, 0);
-        //foreach (ContactPoint contact in collision.contacts)
-        //{
-        //    Debug.DrawRay(contact.point, contact.normal, Color.white);
-        //}
-        //if (collision.relativeVelocity.magnitude > 2)
-        //    audioSource.Play();
     }
 
 
@@ -69,7 +59,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (transform.position.y < -1)
         {
             print("I am dead");
@@ -81,7 +70,6 @@ public class Player : MonoBehaviour
         {
             print("Enemy too close!");
 
-
         }
 
         // Check if key space is pressed
@@ -91,9 +79,18 @@ public class Player : MonoBehaviour
         }
 
         // Get horizontal and vertical input to make the player move
-
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+
+        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+        movementDirection.Normalize();
+
+        transform.Translate(movementDirection * playerSpeed * Time.deltaTime, Space.World);
+        if (movementDirection != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 5 * Time.deltaTime);
+        }
 
     }
 
@@ -101,7 +98,9 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         // Put this velocity at the top line, so the player can move while jumping
-        rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput);
+        //   rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput);
+
+        // face towards movement
 
         // Preventing Player from jumping in the air
         // 1. in Unity, add a layer to Player
@@ -129,6 +128,8 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == 7) // the layer where the coins are
         {
             Destroy(other.gameObject);
+            score++;
+            print("Score : " + score);
         }
     }
 }
