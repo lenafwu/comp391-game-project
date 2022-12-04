@@ -13,10 +13,9 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody rb;
 
+    // jump randomly
     IEnumerator JumpLogic()
     {
-
-
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));

@@ -9,9 +9,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform groundCheckTransform = null;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private float playerSpeed = 5f;
-    [SerializeField] private float rotateSpeed = 720;
+    // [SerializeField] private float rotateSpeed = 720;
     [SerializeField] private float jumpSpeed = 7f;
 
+    // TODO smt to do with player health
     private int playerHealth = 100;
     public int PlayerHealth
     {
@@ -46,7 +47,7 @@ public class Player : MonoBehaviour
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
-
+    // Teleport function
     void OnCollisionEnter(Collision collision)
     {
         // Teleport to the designated position
@@ -54,7 +55,7 @@ public class Player : MonoBehaviour
         {
             if (contact.otherCollider.name == "TeleportDoor")
             {
-                transform.position = new Vector3(-2.85f, 0.8f, -1.35f);
+                transform.position = GameObject.Find("TeleportDestination").transform.position;
             }
         }
     }
@@ -64,12 +65,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Player dies when fall off the platforms
         if (transform.position.y < -1)
         {
-            print("I am dead");
-            EditorApplication.isPlaying = false;
+            // EditorApplication.isPlaying = false;
         }
 
+        // TODO check if enemy too close and do sth
         offset = this.transform.position - _enemy.transform.position;
         if (offset.sqrMagnitude < 0.7f)
         {
@@ -87,15 +89,24 @@ public class Player : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
-        movementDirection.Normalize();
 
-        //   transform.Translate(movementDirection * playerSpeed * Time.deltaTime, Space.World);
-
-        if (movementDirection != Vector3.zero)
+        // Rotate player
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            // Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotateSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.LookRotation(new Vector3(1, 0, 0));
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            transform.rotation = Quaternion.LookRotation(new Vector3(-1, 0, 0));
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, 0));
+
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.back);
         }
 
     }
@@ -112,7 +123,6 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
             jumpKeyPressed = false;
         }
-        // face towards movement
 
         // Preventing Player from jumping in the air
         // 1. in Unity, add a layer to Player
