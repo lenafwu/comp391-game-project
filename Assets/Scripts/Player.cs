@@ -11,10 +11,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float playerSpeed = 5f;
     // [SerializeField] private float rotateSpeed = 720;
     [SerializeField] private float jumpSpeed = 7f;
+    public HealthBar healthBar;
 
     // TODO smt to do with player health
-    private int playerHealth = 100;
-    public int PlayerHealth
+    public float maxHealth = 100f;
+
+    private float playerHealth = 100f;
+    public float Health
     {
         get
         {
@@ -31,6 +34,7 @@ public class Player : MonoBehaviour
     // Invisible in Unity
     private Rigidbody rb;
     private bool jumpKeyPressed;
+    private bool isGrounded;
     private float horizontalInput;
     private float verticalInput;
     private Vector3 offset;
@@ -39,6 +43,13 @@ public class Player : MonoBehaviour
     private Vector3 movementDirection;
 
     private UIManager _UIManager;
+
+    // TODO some logic here
+    void TakeDamage()
+    {
+        playerHealth -= 10;
+        healthBar.UpdateHealthBar();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +68,15 @@ public class Player : MonoBehaviour
             {
                 transform.position = GameObject.Find("TeleportDestination").transform.position;
             }
+            if (contact.otherCollider.name == "Ground")
+            {
+                isGrounded = true;
+            }
         }
+
+
+
+
     }
 
 
@@ -80,10 +99,12 @@ public class Player : MonoBehaviour
         }
 
         // Check if key space is pressed
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             jumpKeyPressed = true;
         }
+
 
         // Get horizontal and vertical input to make the player move
         horizontalInput = Input.GetAxis("Horizontal");
@@ -120,7 +141,10 @@ public class Player : MonoBehaviour
         // add a force up when jump key is pressed
         if (jumpKeyPressed)
         {
+            TakeDamage();
+            print(Health);
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
+            isGrounded = false;
             jumpKeyPressed = false;
         }
 
@@ -134,8 +158,6 @@ public class Player : MonoBehaviour
         {
             return;
         }
-
-
     }
 
     // picking up the coins
