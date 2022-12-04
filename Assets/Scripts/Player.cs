@@ -58,24 +58,29 @@ public class Player : MonoBehaviour
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
-    // Teleport function
+    // Check collision
     void OnCollisionEnter(Collision collision)
     {
-        // Teleport to the designated position
         foreach (ContactPoint contact in collision.contacts)
         {
+            // teleport
             if (contact.otherCollider.name == "TeleportDoor")
             {
                 transform.position = GameObject.Find("TeleportDestination").transform.position;
             }
-            if (contact.otherCollider.name == "Ground")
+
+            // check if grounded
+            if (contact.otherCollider.transform.parent.gameObject.name == "Level")
             {
                 isGrounded = true;
             }
+
+            // check if collided with enemy and take damage
+            if (contact.otherCollider.transform.parent.gameObject.name == "Enemies")
+            {
+                TakeDamage();
+            }
         }
-
-
-
 
     }
 
@@ -90,16 +95,7 @@ public class Player : MonoBehaviour
             // EditorApplication.isPlaying = false;
         }
 
-        // TODO check if enemy too close and do sth
-        offset = this.transform.position - _enemy.transform.position;
-        if (offset.sqrMagnitude < 0.7f)
-        {
-            print("Enemy too close!");
-
-        }
-
         // Check if key space is pressed
-
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             jumpKeyPressed = true;
@@ -141,13 +137,12 @@ public class Player : MonoBehaviour
         // add a force up when jump key is pressed
         if (jumpKeyPressed)
         {
-            TakeDamage();
-            print(Health);
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
             isGrounded = false;
             jumpKeyPressed = false;
         }
 
+        // TODO doesn't work anymore!!!
         // Preventing Player from jumping in the air
         // 1. in Unity, add a layer to Player
         // 2. in this script, add a Layermask field called playerMask
@@ -168,7 +163,6 @@ public class Player : MonoBehaviour
         {
             Destroy(other.gameObject);
             score++;
-            print("Score : " + score);
             _UIManager.updateScore(score);
         }
     }
