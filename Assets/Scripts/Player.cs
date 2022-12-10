@@ -9,9 +9,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform groundCheckTransform = null;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private float playerSpeed = 5f;
+    public AudioClip attackSound;
     // [SerializeField] private float rotateSpeed = 720;
     [SerializeField] private float jumpSpeed = 7f;
     public HealthBar healthBar;
+
 
     // TODO smt to do with player health
     public float maxHealth = 100f;
@@ -93,9 +95,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             Attack();
+            source.PlayOneShot(attackSound);
         }
         // Player dies when fall off the platforms
         if (transform.position.y < -1)
