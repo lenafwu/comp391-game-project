@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
 
     // TODO smt to do with player health
     public float maxHealth = 100f;
-
     private float playerHealth = 100f;
     public float Health
     {
@@ -45,6 +44,8 @@ public class Player : MonoBehaviour
 
     private UIManager _UIManager;
 
+    private Animator anim;
+
     // TODO some logic here
     void TakeDamage()
     {
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         source = GetComponent<AudioSource>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Check collision
@@ -91,6 +93,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Attack();
+        }
         // Player dies when fall off the platforms
         if (transform.position.y < -1)
         {
@@ -142,7 +148,6 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
             isGrounded = false;
             jumpKeyPressed = false;
-
             source.Play();
 
         }
@@ -170,5 +175,10 @@ public class Player : MonoBehaviour
             score++;
             _UIManager.updateScore(score);
         }
+    }
+
+    private void Attack()
+    {
+        anim.SetTrigger("Attack");
     }
 }
