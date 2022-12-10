@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     private float verticalInput;
     private Vector3 offset;
     private int score = 0;
+    private AudioSource source;
 
     private Vector3 movementDirection;
 
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        source = GetComponent<AudioSource>();
     }
 
     // Check collision
@@ -140,6 +142,9 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
             isGrounded = false;
             jumpKeyPressed = false;
+
+            source.Play();
+
         }
 
         // TODO doesn't work anymore!!!
