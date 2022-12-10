@@ -55,6 +55,12 @@ public class Player : MonoBehaviour
         healthBar.UpdateHealthBar();
     }
 
+    void AddHealth()
+    {
+        playerHealth += 5;
+        healthBar.UpdateHealthBar();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -177,6 +183,16 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
             score++;
             _UIManager.updateScore(score);
+        }
+
+        if (other.gameObject.layer == 9) // food
+        {
+            if (Health < 99f)
+            {
+                Destroy(other.gameObject);
+                AddHealth();
+            }
+
         }
     }
 
