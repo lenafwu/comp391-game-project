@@ -5,14 +5,18 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject _item;
+    [SerializeField] List<GameObject> _itemList;
+    [SerializeField] private int _spawnNumber;
+
     // Start is called before the first frame update
     void Start()
     {
-        // Spawn an item for 5 times
+        // Spawn an item
         // ! Assign the game object in Unity !
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < _spawnNumber; i++)
         {
-            // SpawnItem(3 * i + 3 * Mathf.Sin(Random.Range(0, Mathf.PI / 2)), 3 * Mathf.Sin(Random.Range(0, Mathf.PI / 2)), -1.49f);
+            //  SpawnItem(3 * i + 3 * Mathf.Sin(Random.Range(0, Mathf.PI / 2)), 3 * Mathf.Sin(Random.Range(0, Mathf.PI / 2)), -1.49f);
+            SpawnItem(_itemList[Random.Range(0, _itemList.Count)], Random.Range(0, 10), 1, 1);
         }
     }
 
@@ -23,12 +27,9 @@ public class GameManager : MonoBehaviour
     }
 
     // Clone item in a random place
-    void SpawnItem(float x, float y, float z)
+    void SpawnItem(GameObject item, float x, float y, float z)
     {
-        // Instantiate(_item, new Vector3(Random.Range(20f, 2.5f), Random.Range(0, 5f), Random.Range(-2f, 0)), Quaternion.identity);
-        GameObject go = Instantiate(_item, new Vector3(x, y, z), Quaternion.identity);
-        go.transform.localScale =
-            new Vector3(1 + 3 * Mathf.Sin(Random.Range(0, Mathf.PI / 2)), 1.0f, 1.0f);
+        GameObject go = Instantiate(item, new Vector3(x, y, z), Quaternion.identity);
 
     }
 }
