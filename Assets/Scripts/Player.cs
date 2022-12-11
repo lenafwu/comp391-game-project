@@ -102,6 +102,7 @@ public class Player : MonoBehaviour
             if (contact.otherCollider.transform.parent.gameObject.name == "Enemies")
             {
                 TakeDamage();
+                anim.SetTrigger("GettingHit");
             }
         }
 
@@ -174,7 +175,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         // Put this velocity at the top line, so the player can move while jumping
-        rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput);
+        rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput * playerSpeed);
 
         // add a force up when jumping
         if (jumpKeyPressed)
@@ -218,6 +219,7 @@ public class Player : MonoBehaviour
             {
                 Destroy(other.gameObject);
                 AddHealth();
+                anim.SetTrigger("Eating");
             }
 
         }
