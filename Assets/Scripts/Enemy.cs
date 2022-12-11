@@ -6,12 +6,30 @@ public class Enemy : MonoBehaviour
 {
     // Set the values in the inspector
     [SerializeField] private float _speed = 2f;
+    private float health = 100;
     public float _within_range;
     public Transform target; // drag and stop player object in the inspector
     public float minWaitTime = 1;
     public float maxWaitTime = 4;
 
     private Rigidbody rb;
+
+    public float Health
+    {
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+    }
 
     // jump randomly
     IEnumerator JumpLogic()
@@ -34,6 +52,11 @@ public class Enemy : MonoBehaviour
     {
         // Movement();
         ChasePlayer();
+
+        if (Health < 0.5f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Movement()
