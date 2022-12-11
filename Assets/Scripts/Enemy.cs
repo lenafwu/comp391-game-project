@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        Vector3 direction = (target.transform.position - transform.position).normalized;
+        rb.AddForce(direction * -12, ForceMode.Impulse);
     }
 
     // jump randomly
