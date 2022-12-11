@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     // TODO smt to do with player health
     public float maxHealth = 100f;
     private float playerHealth = 100f;
+
     public float Health
     {
         get
@@ -36,10 +37,19 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private bool jumpKeyPressed;
     private bool isGrounded;
+
+    private bool isAttacking = false;
+    private float timeToAttack = 0.3f;
+    private float timer = 0f;
+    private GameObject attackArea;
+
+
     private float horizontalInput;
     private float verticalInput;
+
     private Vector3 offset;
     private int score = 0;
+
     private AudioSource source;
 
     private Vector3 movementDirection;
@@ -68,6 +78,7 @@ public class Player : MonoBehaviour
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         source = GetComponent<AudioSource>();
         anim = GetComponentInChildren<Animator>();
+        attackArea = transform.GetChild(0).gameObject;
     }
 
     // Check collision
@@ -101,18 +112,32 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // press F to attack
         if (Input.GetKeyDown(KeyCode.F))
         {
             Attack();
             source.PlayOneShot(attackSound);
         }
+
+        if (isAttacking)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= timeToAttack)
+            {
+                timer = 0;
+                isAttacking = false;
+                attackArea.SetActive(isAttacking);
+            }
+        }
+
         // Player dies when fall off the platforms
         if (transform.position.y < -1)
         {
             // EditorApplication.isPlaying = false;
         }
 
-        // Check if key space is pressed
+        // Check if player is jumping
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             jumpKeyPressed = true;
@@ -151,12 +176,14 @@ public class Player : MonoBehaviour
         // Put this velocity at the top line, so the player can move while jumping
         rb.velocity = new Vector3(horizontalInput * playerSpeed, rb.velocity.y, verticalInput);
 
-        // add a force up when jump key is pressed
+        // add a force up when jumping
         if (jumpKeyPressed)
         {
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
+
             isGrounded = false;
             jumpKeyPressed = false;
+
             source.Play();
 
         }
@@ -199,5 +226,7 @@ public class Player : MonoBehaviour
     private void Attack()
     {
         anim.SetTrigger("Attack");
+        isAttacking = true;
+        attackArea.SetActive(isAttacking);
     }
 }
